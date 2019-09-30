@@ -7,6 +7,11 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: dev
+      Auth:
+        DefaultAuthorizer: MyLambdaTokenAuthorizer
+        Authorizers: 
+          MyLambdaTokenAuthorizer:
+            FunctionArn: !GetAtt MyAuthFunction.Arn
     
   HelloFunction:
     Type: 'AWS::Serverless::Function'
@@ -21,6 +26,13 @@ Resources:
             RestApiId: !Ref MyApi
             Path: /hello
             Method: GET
+  
+  MyAuthFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: ./authorizer
+      Handler: handler.authorizer
+      Runtime: nodejs10.x
   
 Outputs:
   Region:
