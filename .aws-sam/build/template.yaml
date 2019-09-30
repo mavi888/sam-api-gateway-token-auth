@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Outputs:
+  ApiId:
+    Description: API ID
+    Value:
+      Ref: MyApi
+  ApiUrl:
+    Description: API endpoint URL for Prod environment
+    Value:
+      Fn::Sub: https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/dev/
+  Region:
+    Description: Region
+    Value:
+      Ref: AWS::Region
+Resources:
+  HelloFunction:
+    Properties:
+      CodeUri: HelloFunction
+      Events:
+        HelloAPI:
+          Properties:
+            Method: GET
+            Path: /hello
+            RestApiId:
+              Ref: MyApi
+          Type: Api
+      Handler: handler.hello
+      Runtime: nodejs10.x
+    Type: AWS::Serverless::Function
+  MyApi:
+    Properties:
+      StageName: dev
+    Type: AWS::Serverless::Api
+Transform: AWS::Serverless-2016-10-31
