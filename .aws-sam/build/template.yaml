@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Outputs:
   ApiId:
     Description: API ID
-    Value:
+    Value: 
       Ref: MyApi
   ApiUrl:
     Description: API endpoint URL for Prod environment
